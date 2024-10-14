@@ -8,16 +8,23 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.UUID;
 
 @RestController
 @RequiredArgsConstructor
 public class PlayerController {
+
     private final PlayerService service;
 
     @GetMapping("/getAllPlayers/{id}")
-    public List<Player> getAllPlayers(@PathVariable int id) {
+    public List<Player> getPlayer(@PathVariable UUID id) {
 
         return List.of(service.getPlayerID(id));
+    }
+
+    @GetMapping("/getAllPlayers")
+    public List<Player> getAllPlayers() {
+        return service.getAllPlayers();
     }
 
     @PostMapping("/addPlayer")
@@ -26,12 +33,12 @@ public class PlayerController {
     }
 
     @PutMapping("/editPlayer/{id}")
-    public String updatePlayer(@PathVariable int id){
-        return service.updatePlayerID(id);
+    public Player updatePlayer(@PathVariable UUID id, @RequestBody Player player){
+        return service.updatePlayerID(id, player);
     }
 
     @DeleteMapping("deletePlayer/{id}")
-    public String deletePlayer(@PathVariable int id) {
+    public String deletePlayer(@PathVariable UUID id) {
         return service.deletePlayerID(id);
     }
 }
