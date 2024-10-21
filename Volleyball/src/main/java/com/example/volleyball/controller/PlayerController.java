@@ -2,6 +2,8 @@ package com.example.volleyball.controller;
 
 
 import com.example.volleyball.models.Player;
+import com.example.volleyball.models.PlayerFilter;
+import com.example.volleyball.models.PlayerRequest;
 import com.example.volleyball.services.PlayerService;
 import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
@@ -16,10 +18,23 @@ public class PlayerController {
 
     private final PlayerService service;
 
-    @GetMapping("/getAllPlayers/{id}")
-    public List<Player> getPlayer(@PathVariable UUID id) {
+    @GetMapping("/getAllPlayersByAge/{age}")
+    public List<Player> getPlayer(@PathVariable int age) {
 
-        return List.of(service.getPlayerID(id));
+        return service.getAllPlayerAge(age);
+    }
+    @GetMapping("/getAllPlayersBySurname/{surname}")
+    public List<String> getAllPlayersBySurname(@PathVariable String surname) {
+
+        return service.getAllPlayersBySurname(surname);
+    }
+    @GetMapping("/getAllSpecificPlayers/{firstName}/{lastName}/{age}")
+    public List<Integer> getAllSpecificPlayers(@PathVariable String firstName,@PathVariable String lastName,@PathVariable int age) {
+        return service.getAllPlayersByData(firstName, lastName, age);
+    }
+    @GetMapping("/getAllSpecificPlayersByClass")
+    public List<Integer> getAllSpecificPlayersByClass(@RequestBody PlayerFilter filter) {
+        return service.getAllPlayersByData(filter);
     }
 
     @GetMapping("/getAllPlayers")
@@ -28,7 +43,7 @@ public class PlayerController {
     }
 
     @PostMapping("/addPlayer")
-    public Player addPlayer(@RequestBody Player player){
+    public Player addPlayer(@RequestBody PlayerRequest player){
         return service.addPlayer(player);
     }
 
