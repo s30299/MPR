@@ -21,7 +21,7 @@ public class PlayerService {
     private PlayerResponse PlayerToResponse(Player player){
         PlayerResponse response = new PlayerResponse();
         response.setAge(player.getAge());
-        response.setFirstName(player.getFirstName());
+//        response.setFirstName(player.getFirstName());
         response.setRole(player.getRole());
         response.setHeight(player.getHeight());
 
@@ -31,17 +31,18 @@ public class PlayerService {
         Player player = new Player();
         player.setLastName(playerRequest.getLastName());
         player.setAge(playerRequest.getAge());
-        player.setFirstName(playerRequest.getFirstName());
+//        player.setFirstName(playerRequest.getFirstName());
         player.setRole(playerRequest.getRole());
         player.setHeight(playerRequest.getHeight());
         return player;
     }
 
-    public Player getPlayerID(UUID id){
-        return playerRepository.getReferenceById(id);
+    public PlayerResponse getPlayerID(UUID id){
+        return PlayerToResponse(playerRepository.getReferenceById(id));
     }
-    public List<Player> getAllPlayerAge(int age){
-        return playerRepository.findAll().stream().filter(p -> p.getAge() == age).collect(Collectors.toList());
+
+    public List<PlayerResponse> getAllPlayerAge(int age){
+        return playerRepository.findAll().stream().filter(p -> p.getAge() == age).map(this::PlayerToResponse).collect(Collectors.toList());
 
     }
     public List<Player> getAllPlayers(){
@@ -78,28 +79,28 @@ public class PlayerService {
                 .map(Player::getHeight)
                 .toList();
     }
-    public Player addPlayer(PlayerRequest player){
+    public PlayerResponse addPlayer(PlayerRequest player){
         Player newPlayer = new Player();
-        newPlayer.setFirstName(player.getFirstName());
+//        newPlayer.setFirstName(player.getFirstName());
         newPlayer.setLastName(player.getLastName());
         newPlayer.setAge(player.getAge());
         newPlayer.setHeight(player.getHeight());
         newPlayer.setRole(player.getRole());
         playerRepository.save(newPlayer);
-        return newPlayer;
+        return PlayerToResponse(newPlayer);
     }
     public String deletePlayerID(UUID id){
         playerRepository.deleteById(id);
         return "Player "+id+" deleted";
     }
-    public Player updatePlayerID(UUID id, Player playerFromRequest){
+    public PlayerResponse updatePlayerID(UUID id, PlayerRequest playerFromRequest){
         Player ActualPlayer = playerRepository.getReferenceById(id);
         ActualPlayer.setAge(playerFromRequest.getAge());
         ActualPlayer.setRole(playerFromRequest.getRole());
         ActualPlayer.setHeight(playerFromRequest.getHeight());
         ActualPlayer.setLastName(playerFromRequest.getLastName());
-        ActualPlayer.setFirstName(playerFromRequest.getFirstName());
-
-        return playerRepository.save(ActualPlayer);
+//        ActualPlayer.setFirstName(playerFromRequest.getFirstName());
+        playerRepository.save(ActualPlayer);
+        return PlayerToResponse(ActualPlayer);
     }
 }

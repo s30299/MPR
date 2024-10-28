@@ -15,7 +15,7 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class PlayerRequest {
     @NonNull
-    private String firstName;
+    private String name;
     @NonNull
     private String lastName;
     private int age;

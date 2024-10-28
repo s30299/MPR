@@ -4,8 +4,10 @@ package com.example.volleyball.controller;
 import com.example.volleyball.models.Player;
 import com.example.volleyball.models.PlayerFilter;
 import com.example.volleyball.models.PlayerRequest;
+import com.example.volleyball.models.PlayerResponse;
 import com.example.volleyball.services.PlayerService;
 import lombok.AllArgsConstructor;
+import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -15,11 +17,11 @@ import java.util.UUID;
 @RestController
 @RequiredArgsConstructor
 public class PlayerController {
-
+    @NonNull
     private final PlayerService service;
 
     @GetMapping("/getAllPlayersByAge/{age}")
-    public List<Player> getPlayer(@PathVariable int age) {
+    public List<PlayerResponse> getPlayer(@PathVariable int age) {
 
         return service.getAllPlayerAge(age);
     }
@@ -43,12 +45,12 @@ public class PlayerController {
     }
 
     @PostMapping("/addPlayer")
-    public Player addPlayer(@RequestBody PlayerRequest player){
+    public PlayerResponse addPlayer(@RequestBody PlayerRequest player){
         return service.addPlayer(player);
     }
 
     @PutMapping("/editPlayer/{id}")
-    public Player updatePlayer(@PathVariable UUID id, @RequestBody Player player){
+    public PlayerResponse updatePlayer(@PathVariable UUID id, @RequestBody PlayerRequest player){
         return service.updatePlayerID(id, player);
     }
 
