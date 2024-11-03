@@ -22,7 +22,6 @@ public class PlayerController {
 
     @GetMapping("/getAllPlayersByAge/{age}")
     public List<PlayerResponse> getPlayer(@PathVariable int age) {
-
         return service.getAllPlayerAge(age);
     }
     @GetMapping("/getAllPlayersBySurname/{surname}")
@@ -40,7 +39,7 @@ public class PlayerController {
     }
 
     @GetMapping("/getAllPlayers")
-    public List<Player> getAllPlayers() {
+    public List<PlayerResponse> getAllPlayers() {
         return service.getAllPlayers();
     }
 

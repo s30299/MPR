@@ -8,7 +8,7 @@ import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 
 
-@Mapper
+@Mapper(componentModel = "spring")
 public interface PlayerMapper {
 //1
     @Mapping(target= "firstName", source = "name")

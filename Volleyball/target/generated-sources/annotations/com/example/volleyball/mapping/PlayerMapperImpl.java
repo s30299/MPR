@@ -4,12 +4,14 @@ import com.example.volleyball.models.Player;
 import com.example.volleyball.models.PlayerRequest;
 import com.example.volleyball.models.PlayerResponse;
 import javax.annotation.processing.Generated;
+import org.springframework.stereotype.Component;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2024-10-28T17:42:56+0100",
-    comments = "version: 1.6.2, compiler: javac, environment: Java 17.0.13 (Amazon.com Inc.)"
+    date = "2024-11-03T16:29:20+0100",
+    comments = "version: 1.6.2, compiler: javac, environment: Java 23 (Oracle Corporation)"
 )
+@Component
 public class PlayerMapperImpl implements PlayerMapper {
 
     @Override

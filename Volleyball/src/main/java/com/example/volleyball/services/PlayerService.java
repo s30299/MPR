@@ -1,5 +1,6 @@
 package com.example.volleyball.services;
 
+import com.example.volleyball.mapping.PlayerMapper;
 import com.example.volleyball.models.Player;
 import com.example.volleyball.models.PlayerFilter;
 import com.example.volleyball.models.PlayerRequest;
@@ -15,38 +16,43 @@ import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
-public class PlayerService {
+public class PlayerService{
     private final PlayerRepository playerRepository;
+    private final PlayerMapper mapper;
 
-    private PlayerResponse PlayerToResponse(Player player){
-        PlayerResponse response = new PlayerResponse();
-        response.setAge(player.getAge());
-//        response.setFirstName(player.getFirstName());
-        response.setRole(player.getRole());
-        response.setHeight(player.getHeight());
-
-        return  response;
-    }
-    private Player RequestToPlayer(PlayerRequest playerRequest){
-        Player player = new Player();
-        player.setLastName(playerRequest.getLastName());
-        player.setAge(playerRequest.getAge());
-//        player.setFirstName(playerRequest.getFirstName());
-        player.setRole(playerRequest.getRole());
-        player.setHeight(playerRequest.getHeight());
-        return player;
-    }
+//    private PlayerResponse PlayerToResponse(Player player) {
+////        mapper.mapToPlayerResponse(player);
+//        PlayerResponse response = new PlayerResponse();
+//        response.setAge(player.getAge());
+////        response.setFirstName(player.getFirstName());
+//        response.setRole(player.getRole());
+//        response.setHeight(player.getHeight());
+//
+//        return  response;
+//    }
+//    private Player RequestToPlayer(PlayerRequest playerRequest){
+//        Player player = new Player();
+//        player.setLastName(playerRequest.getLastName());
+//        player.setAge(playerRequest.getAge());
+////        player.setFirstName(playerRequest.getFirstName());
+//        player.setRole(playerRequest.getRole());
+//        player.setHeight(playerRequest.getHeight());
+//        return player;
+//    }
 
     public PlayerResponse getPlayerID(UUID id){
-        return PlayerToResponse(playerRepository.getReferenceById(id));
+        return mapper.mapToPlayerResponse(playerRepository.getReferenceById(id));
     }
 
     public List<PlayerResponse> getAllPlayerAge(int age){
-        return playerRepository.findAll().stream().filter(p -> p.getAge() == age).map(this::PlayerToResponse).collect(Collectors.toList());
+        return playerRepository.findAll().stream().filter(p -> p.getAge() == age).map(mapper::mapToPlayerResponse).collect(Collectors.toList());
 
     }
-    public List<Player> getAllPlayers(){
-        return playerRepository.findAll();
+    public List<PlayerResponse> getAllPlayers(){
+//        return playerRepository.findAll();
+        return playerRepository.findAll().stream()
+                .map(x->mapper.mapToPlayerResponse(x))
+                .toList();
     }
     public List<String> getAllPlayersBySurname(String surname){
 
@@ -82,12 +88,13 @@ public class PlayerService {
     public PlayerResponse addPlayer(PlayerRequest player){
         Player newPlayer = new Player();
 //        newPlayer.setFirstName(player.getFirstName());
-        newPlayer.setLastName(player.getLastName());
-        newPlayer.setAge(player.getAge());
-        newPlayer.setHeight(player.getHeight());
-        newPlayer.setRole(player.getRole());
+//        newPlayer.setLastName(player.getLastName());
+//        newPlayer.setAge(player.getAge());
+//        newPlayer.setHeight(player.getHeight());
+//        newPlayer.setRole(player.getRole());
+        newPlayer=mapper.mapToPlayer(player);
         playerRepository.save(newPlayer);
-        return PlayerToResponse(newPlayer);
+        return mapper.mapToPlayerResponse(newPlayer);
     }
     public String deletePlayerID(UUID id){
         playerRepository.deleteById(id);
@@ -100,7 +107,8 @@ public class PlayerService {
         ActualPlayer.setHeight(playerFromRequest.getHeight());
         ActualPlayer.setLastName(playerFromRequest.getLastName());
 //        ActualPlayer.setFirstName(playerFromRequest.getFirstName());
+//        ActualPlayer=mapper.mapToPlayer(ActualPlayer);
         playerRepository.save(ActualPlayer);
-        return PlayerToResponse(ActualPlayer);
+        return mapper.mapToPlayerResponse(ActualPlayer);
     }
 }
