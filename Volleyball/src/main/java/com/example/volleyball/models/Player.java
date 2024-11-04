@@ -2,6 +2,7 @@ package com.example.volleyball.models;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
+import jakarta.persistence.ManyToOne;
 import lombok.*;
 import org.hibernate.annotations.UuidGenerator;
 
@@ -25,5 +26,7 @@ public class Player {
     private int age;
     private int height;
     private String role;
+    @ManyToOne
+    private Team team;
 }
 
