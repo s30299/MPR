@@ -9,6 +9,7 @@ import com.example.volleyball.services.PlayerService;
 import lombok.AllArgsConstructor;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -39,8 +40,9 @@ public class PlayerController {
     }
 
     @GetMapping("/getAllPlayers")
-    public List<PlayerResponse> getAllPlayers() {
-        return service.getAllPlayers();
+    public ResponseEntity<List<PlayerResponse>> getAllPlayers() {
+        throw new NullPointerException();
+//        return ResponseEntity.ok(service.getAllPlayers());
     }
 
     @PostMapping("/addPlayer")
